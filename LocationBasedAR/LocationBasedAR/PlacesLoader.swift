@@ -41,4 +41,8 @@ struct PlacesLoader {
         }
         dataTask.resume()
     }
+    
+//    func loadDetailInformation(forPlace: Place, handler: @escaping(NSDictionary?, NSError?) -> Void) {
+//        
+//    }
 }
