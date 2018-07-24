@@ -39,7 +39,7 @@ open class ARAnnotationView: UIView {
     }
     
     open override func awakeFromNib() {
-        self.bindUi()
+        self.bindUI()
     }
     
     // Will always be called once, no need to call super
@@ -48,7 +48,7 @@ open class ARAnnotationView: UIView {
     }
     
     // Called when distance/azimuth changes, intended to be used in subclasses
-    open func bindUi() {
+    open func bindUI() {
         
     }
 }
