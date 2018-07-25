@@ -42,7 +42,30 @@ struct PlacesLoader {
         dataTask.resume()
     }
     
-//    func loadDetailInformation(forPlace: Place, handler: @escaping(NSDictionary?, NSError?) -> Void) {
-//        
-//    }
+    func loadDetailInformation(forPlace: Place, handler: @escaping(NSDictionary?, NSError?) -> Void) {
+        let uri = apiURL + "details/json?reference=\(forPlace.reference)&sensor=true&key=\(apiKey)"
+        
+        let url = URL(string: uri)!
+        let session = URLSession(configuration: URLSessionConfiguration.default)
+        
+        let dataTask = session.dataTask(with: url) { data, response, error in
+            if let error = error {
+                print(error)
+            } else if let httpResponse = response as? HTTPURLResponse {
+                if httpResponse.statusCode == 200 {
+                    print(data!)
+                    do {
+                        let responseObject = try JSONSerialization.jsonObject(with: data!, options: .allowFragments)
+                        guard let responseDict = responseObject as? NSDictionary else {
+                            return
+                        }
+                        handler(responseDict, nil)
+                    } catch let error as NSError {
+                        handler(nil, error)
+                    }
+                }
+            }
+        }
+        dataTask.resume()
+    }
 }

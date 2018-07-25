@@ -67,7 +67,8 @@
 				23E5988F2107C1FC00E2802D /* Place.swift */,
 				23E598912107C3DA00E2802D /* AugmentedReality */,
 				23E5989C21090A0200E2802D /* Application */,
-				23E5989B210909ED00E2802D /* UI */,
+				23E598822107BAD300E2802D /* Assets.xcassets */,
+				23E598872107BAD300E2802D /* Info.plist */,
 			);
 			path = LocationBasedAR;
 			sourceTree = "<group>";
@@ -89,21 +90,12 @@
 			path = Classes;
 			sourceTree = "<group>";
 		};
-		23E5989B210909ED00E2802D /* UI */ = {
+		23E5989C21090A0200E2802D /* Application */ = {
 			isa = PBXGroup;
 			children = (
 				23E5987F2107BAD200E2802D /* Main.storyboard */,
 				23E598842107BAD300E2802D /* LaunchScreen.storyboard */,
-			);
-			path = UI;
-			sourceTree = "<group>";
-		};
-		23E5989C21090A0200E2802D /* Application */ = {
-			isa = PBXGroup;
-			children = (
 				23E5987B2107BAD200E2802D /* AppDelegate.swift */,
-				23E598872107BAD300E2802D /* Info.plist */,
-				23E598822107BAD300E2802D /* Assets.xcassets */,
 			);
 			path = Application;
 			sourceTree = "<group>";
