@@ -16,6 +16,7 @@
 		23E598902107C1FC00E2802D /* Place.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23E5988F2107C1FC00E2802D /* Place.swift */; };
 		23E598942107C41B00E2802D /* ARAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23E598932107C41B00E2802D /* ARAnnotation.swift */; };
 		23E598962107C4FD00E2802D /* ARAnnotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23E598952107C4FD00E2802D /* ARAnnotationView.swift */; };
+		23E5989E210910D500E2802D /* ARConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23E5989D210910D500E2802D /* ARConfiguration.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -30,6 +31,7 @@
 		23E5988F2107C1FC00E2802D /* Place.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Place.swift; sourceTree = "<group>"; };
 		23E598932107C41B00E2802D /* ARAnnotation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARAnnotation.swift; sourceTree = "<group>"; };
 		23E598952107C4FD00E2802D /* ARAnnotationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARAnnotationView.swift; sourceTree = "<group>"; };
+		23E5989D210910D500E2802D /* ARConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARConfiguration.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -86,6 +88,7 @@
 			children = (
 				23E598932107C41B00E2802D /* ARAnnotation.swift */,
 				23E598952107C4FD00E2802D /* ARAnnotationView.swift */,
+				23E5989D210910D500E2802D /* ARConfiguration.swift */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -176,6 +179,7 @@
 				23E5987C2107BAD200E2802D /* AppDelegate.swift in Sources */,
 				23E598942107C41B00E2802D /* ARAnnotation.swift in Sources */,
 				23E598962107C4FD00E2802D /* ARAnnotationView.swift in Sources */,
+				23E5989E210910D500E2802D /* ARConfiguration.swift in Sources */,
 				23E598902107C1FC00E2802D /* Place.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
