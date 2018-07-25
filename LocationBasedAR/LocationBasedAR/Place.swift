@@ -40,7 +40,7 @@ class Place: ARAnnotation {
         
         super.init()
         
-        // This property belong to ARAnnotation. That is whhy it goes after the super.init()
+        // This property belongs to ARAnnotation. That is whhy it goes after the super.init()
         self.location = location
     }
     
