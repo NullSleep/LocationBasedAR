@@ -17,6 +17,7 @@
 		23E598942107C41B00E2802D /* ARAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23E598932107C41B00E2802D /* ARAnnotation.swift */; };
 		23E598962107C4FD00E2802D /* ARAnnotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23E598952107C4FD00E2802D /* ARAnnotationView.swift */; };
 		23E5989E210910D500E2802D /* ARConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23E5989D210910D500E2802D /* ARConfiguration.swift */; };
+		23E598A02109170E00E2802D /* ARViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23E5989F2109170E00E2802D /* ARViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -32,6 +33,7 @@
 		23E598932107C41B00E2802D /* ARAnnotation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARAnnotation.swift; sourceTree = "<group>"; };
 		23E598952107C4FD00E2802D /* ARAnnotationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARAnnotationView.swift; sourceTree = "<group>"; };
 		23E5989D210910D500E2802D /* ARConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARConfiguration.swift; sourceTree = "<group>"; };
+		23E5989F2109170E00E2802D /* ARViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -89,6 +91,7 @@
 				23E598932107C41B00E2802D /* ARAnnotation.swift */,
 				23E598952107C4FD00E2802D /* ARAnnotationView.swift */,
 				23E5989D210910D500E2802D /* ARConfiguration.swift */,
+				23E5989F2109170E00E2802D /* ARViewController.swift */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -177,6 +180,7 @@
 				23E5988E2107BD7900E2802D /* PlacesLoader.swift in Sources */,
 				23E5987E2107BAD200E2802D /* ViewController.swift in Sources */,
 				23E5987C2107BAD200E2802D /* AppDelegate.swift in Sources */,
+				23E598A02109170E00E2802D /* ARViewController.swift in Sources */,
 				23E598942107C41B00E2802D /* ARAnnotation.swift in Sources */,
 				23E598962107C4FD00E2802D /* ARAnnotationView.swift in Sources */,
 				23E5989E210910D500E2802D /* ARConfiguration.swift in Sources */,

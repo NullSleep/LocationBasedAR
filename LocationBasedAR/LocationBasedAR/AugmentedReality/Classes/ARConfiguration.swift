@@ -44,3 +44,9 @@ internal func deltaAngle(_ angle1: Double, angle2: Double) -> Double {
     }
     return deltaAngle
 }
+
+// DataSource protocol. Provides the ARViewController with the information needed to display annotations.
+@objc public protocol ARDataSource: NSObjectProtocol {
+    // Asks the data source to provide an annotation view for the annotation. The annotation view must be a subclass of ARAnnotationView.
+//    func ar(_ arViewController: ARViewController, viewForAnnotation: ARAnnotation) -> ARAnnotationView
+}
