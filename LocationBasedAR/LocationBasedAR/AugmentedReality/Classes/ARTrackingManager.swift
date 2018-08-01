@@ -52,5 +52,9 @@ open class ARTrackingManager: NSObjectProtocol, CLLocationManagerDelegate {
             self.locationManager.headingOrientation = self.orientation
         }
     }
-    internal var pitch: Double
+    internal var pitch: Double {
+        get {
+            return self.calculatePitch()
+        }
+    }
 }
