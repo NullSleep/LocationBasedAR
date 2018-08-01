@@ -47,5 +47,10 @@ open class ARTrackingManager: NSObjectProtocol, CLLocationManagerDelegate {
     fileprivate(set) internal var userLocation: CLLocation?
     fileprivate(set) internal var heading: Double = 0
     internal weak var delegate: ARTrackingManagerDelegate?
-    internal var orientation: CLDeviceOrientation = CLDeviceOrientation.portrait
+    internal var orientation: CLDeviceOrientation = CLDeviceOrientation.portrait {
+        didSet {
+            self.locationManager.headingOrientation = self.orientation
+        }
+    }
+    internal var pitch: Double
 }
