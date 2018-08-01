@@ -44,4 +44,8 @@ open class ARTrackingManager: NSObjectProtocol, CLLocationManagerDelegate {
     // Internal Variables
     fileprivate(set) internal var locationManager: CLLocationManager = CLLocationManager()
     fileprivate(set) internal var tracking = false
+    fileprivate(set) internal var userLocation: CLLocation?
+    fileprivate(set) internal var heading: Double = 0
+    internal weak var delegate: ARTrackingManagerDelegate?
+    internal var orientation: CLDeviceOrientation = CLDeviceOrientation.portrait
 }
