@@ -24,4 +24,12 @@ open class ARTrackingManager: NSObjectProtocol, CLLocationManagerDelegate {
      Defines whether altitude is taken into account when calculating distances. Set this to falsew if your annotations don't have altitude values.
      Note that this is only used for distance calculation, it doesn't have effect on vertical levels of annotations. Default value is false.
      */
+    open var altitudeSensitive = false
+    
+    /**
+     Specifies how often the visibilities of annotations are reevaluated.
+    */
+    open var reloadDistanceFilter: CLLocationDistance! // Will be set in init
+    
+    open var userDistanceFilter: CLLocationDistance!
 }
