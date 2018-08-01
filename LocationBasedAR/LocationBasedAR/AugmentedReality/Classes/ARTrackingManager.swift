@@ -60,5 +60,17 @@ open class ARTrackingManager: NSObjectProtocol, CLLocationManagerDelegate {
     
     // Private variables
     fileprivate var motionManager: CMMotionManager = CMMotionManager()
+    fileprivate var lastAcceleration: CMAcceleration = CMAcceleration(x: 0, y: 0, z: 0)
+    fileprivate var reloadLocationPrevious: CLLocation?
+    fileprivate var pitchPreivous: Double = 0
+    fileprivate var reportLocationTimer: Timer?
+    fileprivate var reportLocationDate: TimeInterval?
+    fileprivate var debugLocation: CLLocation?
+    fileprivate var locationSearchTimer: Timer? = nil
+    fileprivate var locationSearchStartTime: TimeInterval? = nil
     
+    override init() {
+        super.init()
+        self.initialize()
+    }
 }
