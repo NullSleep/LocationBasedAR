@@ -41,7 +41,7 @@ open class ARTrackingManager: NSObjectProtocol, CLLocationManagerDelegate {
         }
     }
     
-    // Internal Variables
+    // Internal variables
     fileprivate(set) internal var locationManager: CLLocationManager = CLLocationManager()
     fileprivate(set) internal var tracking = false
     fileprivate(set) internal var userLocation: CLLocation?
@@ -57,4 +57,8 @@ open class ARTrackingManager: NSObjectProtocol, CLLocationManagerDelegate {
             return self.calculatePitch()
         }
     }
+    
+    // Private variables
+    fileprivate var motionManager: CMMotionManager = CMMotionManager()
+    
 }
