@@ -35,5 +35,13 @@ open class ARTrackingManager: NSObjectProtocol, CLLocationManagerDelegate {
     open var reloadDistanceFilter: CLLocationDistance! // Will be set in init
     
     // Specifies how often are distances and azimuths recalculated for visible annotations. The default value is 25m.
-    open var userDistanceFilter: CLLocationDistance!
+    open var userDistanceFilter: CLLocationDistance! {
+        didSet {
+            self.locationManager.distanceFilter = self.userDistanceFilter
+        }
+    }
+    
+    // Internal Variables
+    fileprivate(set) internal var locationManager: CLLocationManager = CLLocationManager()
+    fileprivate(set) internal var tracking = false
 }
