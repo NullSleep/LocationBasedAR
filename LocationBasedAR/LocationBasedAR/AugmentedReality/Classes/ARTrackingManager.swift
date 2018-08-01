@@ -21,15 +21,19 @@ import CoreLocation
 open class ARTrackingManager: NSObjectProtocol, CLLocationManagerDelegate {
     
     /**
-     Defines whether altitude is taken into account when calculating distances. Set this to falsew if your annotations don't have altitude values.
-     Note that this is only used for distance calculation, it doesn't have effect on vertical levels of annotations. Default value is false.
+     * Defines whether altitude is taken into account when calculating distances. Set this to falsew if your annotations don't have altitude values.
+     * Note that this is only used for distance calculation, it doesn't have effect on vertical levels of annotations. Default value is false.
      */
     open var altitudeSensitive = false
     
     /**
-     Specifies how often the visibilities of annotations are reevaluated.
-    */
+     * Specifies how often the visibilities of annotations are reevaluated.
+     *
+     * Annotation's visibility depens on the number of factors - azimuth distance from user, vertical level etc.
+     * Note: Thse calculations are quite heavy if many annotations are present, so don't use a value lower than 50m. The default value is 25m.
+     */
     open var reloadDistanceFilter: CLLocationDistance! // Will be set in init
     
+    // Specifies how often are distances and azimuths recalculated for visible annotations. The default value is 25m.
     open var userDistanceFilter: CLLocationDistance!
 }
