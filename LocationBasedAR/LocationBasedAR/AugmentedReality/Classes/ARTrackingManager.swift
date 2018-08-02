@@ -73,4 +73,41 @@ open class ARTrackingManager: NSObjectProtocol, CLLocationManagerDelegate {
         super.init()
         self.initialize()
     }
+    
+    deinit {
+        self.stopTracking()
+    }
+    
+    fileprivate func initialize() {
+        // Defautls
+        self.reloadDistanceFilter = 75
+        self.userDistanceFilter = 25
+        
+        // Setup for location manager
+        self.locationManager.desiredAccuracy = kCLLocationAccuracyBest
+        self.locationManager.distanceFilter = CLLocationDistance(self.userDistanceFilter)
+        self.locationManager.headingFilter = 1
+        self.locationManager.delegate = self
+    }
+    
+    // MARK: - TRACKING
+    
+    /**
+     * Starts the location and motion managers
+     * Parameter: notifyLocationFailure to call the arTrackingManager:didFailToFindLocationAfter:
+     */
+    internal func startTracking(notifyLocationFailure: Bool = false) {
+        // Request authorization if the state is not determined
+        if CLLocationManager.locationServicesEnabled() {
+            if CLLocationManager.authorizationStatus() == CLAuthorizationStatus.notDetermined {
+                if #available(iOS 8.0, *) {
+                    self.locationManager.requestWhenInUseAuthorization()
+                } else {
+                    // Fallback to an ealier version
+                }
+            }
+        }
+        
+        // Start the motion and location managers
+    }
 }
