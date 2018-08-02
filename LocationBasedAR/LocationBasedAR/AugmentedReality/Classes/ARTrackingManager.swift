@@ -90,7 +90,7 @@ open class ARTrackingManager: NSObjectProtocol, CLLocationManagerDelegate {
         self.locationManager.delegate = self
     }
     
-    // MARK: - TRACKING
+    // MARK: - Tracking
     
     /**
      * Starts the location and motion managers
@@ -122,5 +122,30 @@ open class ARTrackingManager: NSObjectProtocol, CLLocationManagerDelegate {
             // Calling delegate with value 0 to be felxible and be able to show an indicator when the search starts
             self.delegate?.arTrackingManager?(self, didFailToFindLocationAfter: 0)
         }
+    }
+    
+    // Stops the location and motion managers
+    internal func stopTracking() {
+        self.reloadLocationPrevious = nil
+        self.userLocation = nil
+        self.reportLocationDate = nil
+        
+        // Stop motion and location managers
+        self.motionManager.stopAccelerometerUpdates()
+        self.locationManager.stopUpdatingHeading()
+        self.locationManager.stopUpdatingLocation()
+        
+        self.tracking = false
+        self.stopLocationSearchTimer()
+    }
+    
+    // MARK: - CLLocationManagerDelegate
+    
+    open func locationManager(_ manager: CLLocationManager, didUpdateHeading newHeading: CLHeading) {
+        self.heading = fmod(newHeading.trueHeading, 360.0)
+    }
+    
+    open func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        
     }
 }
