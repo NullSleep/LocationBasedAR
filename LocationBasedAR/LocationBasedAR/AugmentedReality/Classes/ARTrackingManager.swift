@@ -108,6 +108,19 @@ open class ARTrackingManager: NSObjectProtocol, CLLocationManagerDelegate {
             }
         }
         
-        // Start the motion and location managers
+        // Starting the motion and location managers
+        self.motionManager.startAccelerometerUpdates()
+        self.locationManager.startUpdatingHeading()
+        self.locationManager.startUpdatingLocation()
+        
+        self.tracking = true
+        
+        // Location Search
+        self.stopLocationSearchTimer()
+        if notifyLocationFailure {
+            self.startLocationSearchTimer()
+            // Calling delegate with value 0 to be felxible and be able to show an indicator when the search starts
+            self.delegate?.arTrackingManager?(self, didFailToFindLocationAfter: 0)
+        }
     }
 }
