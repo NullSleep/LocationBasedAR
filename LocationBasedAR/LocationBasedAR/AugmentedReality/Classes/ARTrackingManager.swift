@@ -192,4 +192,17 @@ open class ARTrackingManager: NSObjectProtocol, CLLocationManagerDelegate {
             }
         }
     }
+    
+    internal func reportLocationToDelegate() {
+        self.delegate?.arTrackingManager(self, didUpdateUserLocation: self.userLocation)
+        
+        if self.userLocation != nil && self.reloadLocationPrevious != nil && self.reloadLocationPrevious!.distance(from: self.userLocation!) > self.reloadDistanceFilter! {
+            self.reloadLocationPrevious = self.userLocation
+            self.delegate?.arTrackingManager(self, didUpdateReloadLocation: self.userLocation)
+        }
+        
+        self.reportLocationTimer?.invalidate()
+        self.reportLocationTimer = nil
+        self.reportLocationDate = Date().timeIntervalSince1970
+    }
 }
