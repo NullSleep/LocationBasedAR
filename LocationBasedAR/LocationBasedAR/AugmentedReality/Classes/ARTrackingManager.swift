@@ -146,6 +146,15 @@ open class ARTrackingManager: NSObjectProtocol, CLLocationManagerDelegate {
     }
     
     open func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        
+        if locations.count > 0 {
+            let location = locations[0]
+            
+            // Disregarding old and low quality location detections
+            let age = location.timestamp.timeIntervalSinceNow
+            if age < -30 || location.horizontalAccuracy > 500 || location.horizontalAccuracy < 0 {
+                print("Disregarding location - Age: \(age), horizonatalAccuarcy: \(location.horizontalAccuracy)")
+                return
+            }
+        }
     }
 }
