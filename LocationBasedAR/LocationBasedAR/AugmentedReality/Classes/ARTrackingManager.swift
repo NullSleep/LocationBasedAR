@@ -172,6 +172,18 @@ open class ARTrackingManager: NSObjectProtocol, CLLocationManagerDelegate {
             if debugLocation != nil {
                 self.userLocation = debugLocation
             }
+            
+            if self.reloadLocationPrevious == nil {
+                self.reloadLocationPrevious = self.userLocation
+            }
+            
+            // Reporting location 5s after we got location, this will filter multiple locations call and make only on delegate cell
+            let reportIsScheduled = self.reportLocationTimer != nil
+            
+            // If it's the first time report the location inmediately
+            if self.reportLocationDate == nil {
+                self.reportLocationToDelegate()
+            }
         }
     }
 }
