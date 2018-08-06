@@ -183,6 +183,12 @@ open class ARTrackingManager: NSObjectProtocol, CLLocationManagerDelegate {
             // If it's the first time report the location inmediately
             if self.reportLocationDate == nil {
                 self.reportLocationToDelegate()
+            // If the report is already scheduled, by doing nothing it will report the last location delivered in 5 seconds
+            } else if reportIsScheduled {
+                print("If it's the first time report the location inmediately")
+            // Scheduling the report for 5 seconds
+            } else {
+                self.reportLocationTimer = Timer.scheduledTimer(timeInterval: 5, target: self, selector: #selector(ARTrackingManager.reportLocationToDelegate), userInfo: nil, repeats: false)
             }
         }
     }
