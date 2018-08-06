@@ -155,6 +155,23 @@ open class ARTrackingManager: NSObjectProtocol, CLLocationManagerDelegate {
                 print("Disregarding location - Age: \(age), horizonatalAccuarcy: \(location.horizontalAccuracy)")
                 return
             }
+            
+            self.stopLocationSearchTimer()
+            self.userLocation = location
+            
+            // Setting the altitude to 0 if altitudeSensitive == false
+            if self.userLocation != nil && !self.altitudeSensitive {
+                let location = self.userLocation!
+                self.userLocation = CLLocation(coordinate: location.coordinate,
+                                               altitude: 0,
+                                               horizontalAccuracy: location.horizontalAccuracy,
+                                               verticalAccuracy: location.verticalAccuracy,
+                                               timestamp: location.timestamp)
+            }
+            
+            if debugLocation != nil {
+                self.userLocation = debugLocation
+            }
         }
     }
 }
