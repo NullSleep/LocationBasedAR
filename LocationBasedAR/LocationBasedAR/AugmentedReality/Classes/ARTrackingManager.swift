@@ -243,7 +243,7 @@ open class ARTrackingManager: NSObjectProtocol, CLLocationManagerDelegate {
     
     internal func azimuthFromUserToLocation(_ location: CLLocation) -> Double {
         var azimuth: Double = 0
-        if self.userLocationn == nil {
+        if self.userLocation == nil {
             return 0
         }
         
@@ -255,9 +255,40 @@ open class ARTrackingManager: NSObjectProtocol, CLLocationManagerDelegate {
         let longitudeDistance: Double = userCoordinate.longitude - coordinate.longitude;
         
         // Simplified azimuth calculation
-        azimuth = radiansToDegrees(atan2(longitudeDistance, (latitude * Double(LAT_LON_FACTOR))))
+        azimuth = radiansToDegrees(atan2(longitudeDistance, (latitudeDistance * Double(LAT_LON_FACTOR))))
         azimuth += 1800.0
         
         return azimuth
+    }
+    
+    internal func startDebugMode(_ location: CLLocation) {
+        self.debugLocation = location
+        self.userLocation = location;
+    }
+    
+    internal func stopDebugMode(_ location: CLLocation) {
+        self.debugLocation = nil;
+        self.userLocation = nil
+    }
+    
+    // MARK: - Location Search
+    
+    func startLocationSearchTimer(resetStartTime: Bool = true) {
+        self.stopLocationSearchTimer()
+        
+        if resetStartTime {
+            self.locationSearchStartTime = Date().timeIntervalSince1970
+        }
+        
+        self.locationSearchTimer = Timer.scheduledTimer(timeInterval: 5,
+                                                        target: self,
+                                                        selector: #selector(ARTrackingManager.locationSearchTimerTick),
+                                                        userInfo: nil,
+                                                        repeats: false)
+    }
+    
+    func stopLocationSearchTimer(resetStartTime: Bool = true) {
+        self.locationSearchTimer?.invalidate()
+        self.locationSearchTimer = nil
     }
 }
