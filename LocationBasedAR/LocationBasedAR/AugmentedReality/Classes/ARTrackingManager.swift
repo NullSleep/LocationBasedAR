@@ -207,6 +207,7 @@ open class ARTrackingManager: NSObjectProtocol, CLLocationManagerDelegate {
     }
     
     // MARK: - Calculations
+    
     internal func calculatePitch() -> Double {
         if self.motionManager.accelerometerData == nil {
             return 0
@@ -219,5 +220,24 @@ open class ARTrackingManager: NSObjectProtocol, CLLocationManagerDelegate {
         self.lastAcceleration.x = (acceleration.x * filterFactor) + (self.lastAcceleration.x * (1.0 - filterFactor));
         self.lastAcceleration.y = (acceleration.y * filterFactor) + (self.lastAcceleration.y * (1.0 - filterFactor));
         self.lastAcceleration.z = (acceleration.z * filterFactor) + (self.lastAcceleration.z * (1.0 - filterFactor));
+        
+        let deviceOrientation = self.orientation
+        var angle: Double = 0
+        
+        if deviceOrientation == CLDeviceOrientation.portrait {
+            angle = atan2(self.lastAcceleration.y, self.lastAcceleration.z)
+        } else if deviceOrientation == CLDeviceOrientation.portraitUpsideDown {
+            angle = atan2(-self.lastAcceleration.y, self.lastAcceleration.z)
+        } else if deviceOrientation == CLDeviceOrientation.landscapeLeft {
+            angle = atan2(self.lastAcceleration.x, self.lastAcceleration.z)
+        } else if deviceOrientation == CLDeviceOrientation.landscapeRight {
+            angle = atan2(-self.lastAcceleration.x, self.lastAcceleration.z)
+        }
+        
+        angle += Double.pi
+        angle = (self.pitchPreivous + angle) / 2.0
+        self.pitchPreivous = angle
+        
+        return angle
     }
 }
