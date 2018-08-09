@@ -205,4 +205,19 @@ open class ARTrackingManager: NSObjectProtocol, CLLocationManagerDelegate {
         self.reportLocationTimer = nil
         self.reportLocationDate = Date().timeIntervalSince1970
     }
+    
+    // MARK: - Calculations
+    internal func calculatePitch() -> Double {
+        if self.motionManager.accelerometerData == nil {
+            return 0
+        }
+        
+        let acceleration: CMAcceleration = self.motionManager.accelerometerData!.acceleration
+        
+        // Filtering data so its not jumping around
+        let filterFactor: Double = 0.05
+        self.lastAcceleration.x = (acceleration.x * filterFactor) + (self.lastAcceleration.x * (1.0 - filterFactor));
+        self.lastAcceleration.y = (acceleration.y * filterFactor) + (self.lastAcceleration.y * (1.0 - filterFactor));
+        self.lastAcceleration.z = (acceleration.z * filterFactor) + (self.lastAcceleration.z * (1.0 - filterFactor));
+    }
 }
