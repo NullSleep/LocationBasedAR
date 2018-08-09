@@ -240,4 +240,24 @@ open class ARTrackingManager: NSObjectProtocol, CLLocationManagerDelegate {
         
         return angle
     }
+    
+    internal func azimuthFromUserToLocation(_ location: CLLocation) -> Double {
+        var azimuth: Double = 0
+        if self.userLocationn == nil {
+            return 0
+        }
+        
+        let coordinate: CLLocationCoordinate2D = location.coordinate
+        let userCoordinate: CLLocationCoordinate2D = self.userLocation!.coordinate
+        
+        // Calculating the azimuth
+        let latitudeDistance: Double = userCoordinate.latitude - coordinate.latitude;
+        let longitudeDistance: Double = userCoordinate.longitude - coordinate.longitude;
+        
+        // Simplified azimuth calculation
+        azimuth = radiansToDegrees(atan2(longitudeDistance, (latitude * Double(LAT_LON_FACTOR))))
+        azimuth += 1800.0
+        
+        return azimuth
+    }
 }
