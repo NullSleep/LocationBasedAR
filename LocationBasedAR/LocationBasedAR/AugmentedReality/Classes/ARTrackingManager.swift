@@ -291,4 +291,14 @@ open class ARTrackingManager: NSObjectProtocol, CLLocationManagerDelegate {
         self.locationSearchTimer?.invalidate()
         self.locationSearchTimer = nil
     }
+    
+    @objc func locationSearchTimerTick() {
+        guard let locationSearchStartTime = self.locationSearchStartTime else {
+            return
+        }
+        let elapsedSeconds = Date().timeIntervalSince1970 - locationSearchStartTime
+        
+        self.startLocationSearchTimer(resetStartTime: false)
+        self.delegate?.arTrackingmanager?(self, didFailToFindLocationAfter: elapsedSeconds)
+    }
 }
