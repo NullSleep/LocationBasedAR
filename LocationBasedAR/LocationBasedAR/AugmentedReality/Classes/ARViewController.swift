@@ -117,5 +117,55 @@ open class ARViewController: UIViewController {
     fileprivate var debugMapButton: UIButton?
     fileprivate var didLayoutSubviews: Bool = false
     
+    // MARK: - Init
+    init() {
+        super.init(coder: aDecoder)
+        self.intializeInternal()
+    }
     
+    required public init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+        self.initializeInternal()
+    }
+    
+    override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
+        super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
+        self.intializeInternal()
+    }
+    
+    internal func intializeInternal() {
+        if self.initialized {
+            return
+        }
+        self.initialized = true;
+        
+        // Default values
+        self.trackingManager.delegate = self
+        self.maxVerticalLevel = 5
+        self.maxVisibleAnnotations = 100
+        self.maxDistance = 0
+        
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(ARViewController.locationNotification(_:)),
+                                               name: NSNotification.Name(rawValue: "kNotificationLocationSet"),
+                                               object: nil)
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(ARViewController.appWillEnterForeground(_:)),
+                                               name: NSNotification.Name.UIApplicationWillEnterForeground,
+                                               object: nil)
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(ARViewController.appWillEnterBackground(_:)),
+                                               name: NSNotification.Name.UIApplicationWillEnterBackground,
+                                               object: nil)
+        self.intialize()
+    }
+    
+    // Intended for use in subclasses, no need to call super
+    internal func intialize() {
+    }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self)
+        self.stopCamera()
+    }
 }
