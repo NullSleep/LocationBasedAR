@@ -48,5 +48,18 @@ internal func deltaAngle(_ angle1: Double, angle2: Double) -> Double {
 // DataSource protocol. Provides the ARViewController with the information needed to display annotations.
 @objc public protocol ARDataSource: NSObjectProtocol {
     // Asks the data source to provide an annotation view for the annotation. The annotation view must be a subclass of ARAnnotationView.
-//    func ar(_ arViewController: ARViewController, viewForAnnotation: ARAnnotation) -> ARAnnotationView
+    func ar(_ arViewController: ARViewController, viewForAnnotation: ARAnnotation) -> ARAnnotationView
+    
+    /**
+     *  IMPORTANT DOCUMENTATION
+     *  ARViewController tracks user movement and shows/hides annotations accordingly. But if there are a lot of annotations
+     *  or for some other reason annotation cannot be set all at once, this mehtods can be used to set annotation part by part.
+     *
+     *  Use ARViewController.trackingManager.reloadDistanceFilter to change how often this is called.
+     *
+     *  - parameter arViewController:   ARViewController instance
+     *  - parameter location:           Current location of the user
+     *  - returns:                      Annotations to load, previous annotations are removed
+     */
+    @objc optional func ar(_ arViewController: ARViewController, shouldReloadWithLocation location: CLLocation) -> [ARAnnotation]
 }
