@@ -91,4 +91,31 @@ open class ARViewController: UIViewController {
     // Called every 5 seonds after the location tracking has started but failed to deliver the location. It is also called when tracking has just
     // started with timeElapsed = 0. This timer is restarted when the app comes from the background or on didAppear.
     open var onDidFailToFindLocation: ((_ timeElapsed: TimeInterval, _ acquiredLocationBefore: Bool) -> Void)?
+    
+    // The UI options. It has to be set before the controller is shown. Changes made afterwards are disregarded.
+    open var uiOptions = UiOptions()
+    
+    // Private variables
+    fileprivate var initialized: Bool = false
+    fileprivate var cameraSession: AVCaptureSession = AVCaptureSession()
+    fileprivate var overlayView: OverlayView = OverlayView()
+    fileprivate var displayTimer: CADisplayLink?
+    fileprivate var cameraLayer: AVCaptureVideoPreviewLayer? // Will be se in init
+    fileprivate var annotationsViews: [ARAnnotationView] = []
+    fileprivate var previousRegion: Int = 0
+    fileprivate var degreesPerScreen: CGFloat = 0
+    fileprivate var shouldReloadAnnotations: Bool = false
+    fileprivate var reloadInProgress = false
+    fileprivate var reloadToken: Int = 0
+    fileprivate var reloadLock = NSRecursiveLock()
+    fileprivate var annotaitons: [ARAnnotation] = []
+    fileprivate var activeAnnotations: [ARAnnotation] = []
+    fileprivate var closeButton: UIButton?
+    fileprivate var currentHeading: Double = 0
+    fileprivate var lastLocation: CLLocation?
+    fileprivate var debugLabel: UILabel?
+    fileprivate var debugMapButton: UIButton?
+    fileprivate var didLayoutSubviews: Bool = false
+    
+    
 }
