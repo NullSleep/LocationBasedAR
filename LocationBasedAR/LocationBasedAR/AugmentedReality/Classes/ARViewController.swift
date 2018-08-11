@@ -67,6 +67,28 @@ open class ARViewController: UIViewController {
     open var maxDistance: Double = 0
     
     // Class for managing geographical calculations. Use it to set properties like reloadDistanceFilter, userDistanceFilter and altitudeSensitive.
-    fileprivate(set) open var trackingManager: ARTrackingmanager = ARTrackingManager()
+    fileprivate(set) open var trackingManager: ARTrackingManager = ARTrackingManager()
     
+    // UIImage for the close button. If not set, the deafult one is used.
+    open var closeButtonImage: UIImage? {
+        didSet {
+            closeButton?.setImage(self.closeButtonImage, for: UIControlState())
+        }
+    }
+    
+    // Enables map debugging and some other debuggin features, set before the controller is shown.
+    @available(*, deprecated, message: "Will be removed in the next version, use uiOptions.debugEnabled.")
+    open var debugEnabled = true {
+        didSet {
+            self.uiOptions.debugEnabled = debugEnabled
+        }
+    }
+    
+    // Smoothing factor for heading in range 0-1. It affects horizontal movement of annotation views. the lower the value the bigger the smoothing.
+    // Value 1 means no smoothing. It should be greater than 0
+    open var headingSmoothingFactor: Double = 1
+    
+    // Called every 5 seonds after the location tracking has started but failed to deliver the location. It is also called when tracking has just
+    // started with timeElapsed = 0. This timer is restarted when the app comes from the background or on didAppear.
+    open var onDidFailToFindLocation: ((_ timeElapsed: TimeInterval, _ acquiredLocationBefore: Bool) -> Void)?
 }

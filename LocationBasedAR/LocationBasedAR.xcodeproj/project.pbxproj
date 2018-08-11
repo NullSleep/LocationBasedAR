@@ -93,8 +93,8 @@
 				23E598932107C41B00E2802D /* ARAnnotation.swift */,
 				23E598952107C4FD00E2802D /* ARAnnotationView.swift */,
 				23E5989D210910D500E2802D /* ARConfiguration.swift */,
-				23E5989F2109170E00E2802D /* ARViewController.swift */,
 				23E598A3210BB0C400E2802D /* ARTrackingManager.swift */,
+				23E5989F2109170E00E2802D /* ARViewController.swift */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
