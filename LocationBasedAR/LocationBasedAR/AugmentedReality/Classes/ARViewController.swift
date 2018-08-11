@@ -168,4 +168,43 @@ open class ARViewController: UIViewController {
         NotificationCenter.default.removeObserver(self)
         self.stopCamera()
     }
+    
+    // MARK: - View's Lifecycle
+    
+    open override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        onViewWillAppear() // This is done to prevent subclassing problems
+    }
+    
+    open override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        onViewDidAppear() // This is done to prevent subclassing problems
+    }
+    
+    open override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        onViewDidDisappear() // This is done to prevent subclassing problems
+    }
+    
+    open override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        onViewDidLayoutSubviews() // This is done to prevent subclassing problems
+    }
+    
+    fileprivate func onViewWillAppear() {
+        // Loading the camera layer if not previously added
+        if self.cameraLayer?.superlayer == nil {
+            self.loadCamera()
+        }
+        
+        // Overlay
+        if self.overlayView.superView == nil {
+            self.loadOverlay()
+        }
+        
+        // Self orientation start camera
+        self.setOrientation(UIApplication.shared.statusBarOrientation)
+        self.layoutUi()
+        self.startCamera(notifyLocationFailure: true)
+    }
 }
