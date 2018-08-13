@@ -272,4 +272,77 @@ open class ARViewController: UIViewController {
             self.trackingManager.startTracking(notifyLocationFailure: true)
         }
     }
+    
+    // MARK: - Annotations and Annotation Views
+    
+    /*
+     * Sets annotations. Note that annotations with invalid location will be kicked.
+     * - parameter annotations: Annotations
+     */
+    open func setAnnotations(_ annotations: [ARAnnotation]) {
+        var validAnnotations: [ARAnnotation] = []
+        for annotation in annotations {
+            if annotation.location != nil && CLLocationCoordinate2DIsValid(annotation.location!.coordinate) {
+                validAnnotaitons.append(annotation)
+            }
+        }
+        self.annotaitons = validAnnotations
+        self.reloadAnnotations()
+    }
+    
+    open func getAnnotations() -> [ARAnnotation] {
+        return self.annotations
+    }
+ 
+    // Creates annotations views and recalculates all variables (distances, azimuths, vertical levels) if user location
+    // is available, else it will reload the it gets user location.
+    open func reloadAnnotations() {
+        if self.trackingManager.userLocation != nil && self.isViewLoaded {
+                self.shouldReloadAnnotations = false
+                self.reload(calculateDistanceAndAzimuth: true, calculateVericalLevels: true, createAnnotationViews: true)
+        } else {
+            self.shouldReloadAnnotations = true
+        }
+    }
+    
+    // Creates annotation views. All views are created at once, for active annotations. This reduces lag when rotating.
+    fileprivate func createAnnotationViews() {
+        var annotationViews: [ARAnnotationView] = []
+        // Which annotations are active is determined by the number of propertoies (distance, vertical level, etc)
+        let activeAnnotations = self.activeAnnotations
+        
+        // Removing existing annotaiton views
+        for annotationView in self.annotationsViews {
+            annotationView.removeFromSuperview()
+        }
+        
+        // Destroy views for inactive annotations
+        for annotation in self.annotaitons {
+            if (!annotation.active) {
+                annotation.annotationView = nil
+            }
+        }
+        
+        // Create views from active annotations
+        for annotation in activeAnnotations {
+            // Don't create annotation view for annotaitons that don't have a valid location. Note: This is checked before, should be removed.
+            if annotation.location == nil || !CLLocationCoordinate2DIsValid(annotation.location!.coordinate) {
+                continue
+            }
+            
+            var annotationView: ARAnnotationView? = nil
+            if annotation.annotationView != nil {
+                annotationView = annotation.annotationView
+            } else {
+                annotationView = self.dataSource?.ar(self, viewForAnnotation: annotation)
+            }
+            
+            if annotationView != nil {
+                annotation.annotationView = annotationView
+                annotationView!.annotation = annotation
+                annotationViews.apppend(annotationView!)
+            }
+        }
+        self.annotationsViews = annotationsViews
+    }
 }
