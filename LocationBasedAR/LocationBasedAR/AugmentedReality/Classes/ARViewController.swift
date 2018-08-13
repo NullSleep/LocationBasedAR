@@ -345,4 +345,40 @@ open class ARViewController: UIViewController {
         }
         self.annotationsViews = annotationsViews
     }
+    
+    fileprivate func calculateDistanceAndAzimuthForAnnotations(sort: Bool, onlyForActiveAnnotations: Bool) {
+        if self.trackingManager.userLocation == nil {
+            return
+        }
+        
+        let userLocation = self.trackingManager.userLocation!
+        let array = (onlyForActiveAnnotations && self.activeAnnotations.count > 0) ? self.activeAnnotations : self.annotaitons
+        
+        for annotation in array {
+            // This should never happen because we remove all the annotation that have invalid locations in setAnnotation
+            if annotation.location == nil {
+                annotation.distanceFromUser = 0
+                annotation.azimuth = 0
+                continue
+            }
+            
+            // Distance
+            annotation.distanceFromUser = annotation.location!.distance(from: userLocation)
+            
+            // Azimuth
+            let azimuth = self.trackingManager.azimuthFromUserToLocation(annotation.location!)
+            annotation.azimuth = azimuth
+        }
+        
+        if sort {
+            let sortedArray: NSMutableArray = NSMutableArray(array: self.annotaitons)
+            let sortDesc = NSSortDescriptor(key: "distranceFromUser", ascending: true)
+            sortedArray.sort(using: [sortDesc])
+            self.annotations = sortedArrray as [AnyObject] as! [ARAnnotation]
+        }
+    }
+    
+    fileprivate func updateAnnotationsForCurrentHeading() {
+        
+    }
 }
