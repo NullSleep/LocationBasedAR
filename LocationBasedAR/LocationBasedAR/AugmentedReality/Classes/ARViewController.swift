@@ -207,4 +207,69 @@ open class ARViewController: UIViewController {
         self.layoutUi()
         self.startCamera(notifyLocationFailure: true)
     }
+    
+    fileprivate func onViewDidAppear() {
+    }
+    
+    fileprivate func onViewDidDisappear() {
+        stopCamera()
+    }
+    
+    internal func closeButtonTap() {
+        self.presentingViewController?.dismiss(animated: true, completion: nil)
+    }
+    
+    open override var preferedStatusBarHidden: Bool {
+        return true
+    }
+    
+    fileprivate func onViewDidLayoutSubviews() {
+        // Executed only first time when the layout for everything is being set
+        if !self.didLayoutSubviews {
+            self.didLayoutSubviews = true
+            
+            // Close button
+            if self.uiOptions.closeButtonEnabled {
+                self.addCloseButton()
+            }
+            
+            // Debug
+            if self.uiOptions.debugEnablef {
+                self.addDebugui()
+            }
+            
+            // Layout
+            self.layoutUi()
+            
+            self.view.layoutIfNeeded()
+        }
+        
+        self.degreesoerScreen = (self.view.bound.size.width / OVERLAY_VIEW_WIDTH) * 360.0
+    }
+    
+    internal func appDidEnterBackground(_ notification: Notification) {
+        if (self.view.window != nil) {
+            self.trackingManager.stopTracking()
+        }
+    }
+    
+    internal func appWillEnterForeground(_ notification: Notification) {
+        if (self.view.window != nil) {
+            // Removing everything from the screen and restarting the location manager.
+            for annotation in self.annotations {
+                annotation.annotationView = nil
+            }
+            
+            for annotationView in self.annotationsViews {
+                annotationView.removeFromSuperview()
+            }
+            
+            self.annotationsViews = []
+            self.shouldReloadAnnotations = true;
+            self.trackingManager.stopTracking()
+            
+            // Start tracking
+            self.trackingManager.startTracking(notifyLocationFailure: true)
+        }
+    }
 }
