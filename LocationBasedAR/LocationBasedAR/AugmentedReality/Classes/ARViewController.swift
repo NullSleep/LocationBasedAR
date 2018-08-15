@@ -471,13 +471,22 @@ open class ARViewController: UIViewController {
             dictionary[Int(level)] = array
         }
         
-        // Putting each annotation in its dictionary (each level has its own dictionary )
+        // Putting each annotation in its dictionary (each level has its own dictionary)
         for i in stride(from: 0, to: self.activeAnnotations.count, by: 1) {
             let annotation = self.activeAnnotations[i] as ARAnnotation
             if annotation.verticalLevel <= self.maxVerticalLevel {
                 let array = dictionary[annotation.verticalLevel] as? NSMutableArray
                 array?.add(annotation)
             }
+        }
+        
+        // Calculating the annotation view's widht in degrees. Asuming all annotation views have the same width.
+        var annotationWidthInDegrees: Double = 0
+        if let annotationWidth = self.getAnyAnnotationView()?.bounds.size.width {
+            annotationWidthInDegrees = Double(annotationWidth / H_PIXELS_PER_DEGREE)
+        }
+        if annotationWidthInDegrees < 5 {
+            annotationWidthInDegrees = 5
         }
     }
 }
