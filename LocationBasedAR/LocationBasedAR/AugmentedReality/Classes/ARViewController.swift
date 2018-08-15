@@ -504,7 +504,10 @@ open class ARViewController: UIViewController {
                 }
                 
                 for j in stride(from: (i+1), to: annotationsForCurrentLevel.count, by: 1) {
-                    
+                    let annotation2 = annotationsForCurrentLevel[j] as! ARAnnotation
+                    if annotation1 == annotation2 || annotation2.verticallevel != level {
+                        continue
+                    }
                 }
             }
         }
