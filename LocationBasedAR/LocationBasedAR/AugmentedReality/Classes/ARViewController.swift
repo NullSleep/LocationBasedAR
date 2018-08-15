@@ -488,5 +488,12 @@ open class ARViewController: UIViewController {
         if annotationWidthInDegrees < 5 {
             annotationWidthInDegrees = 5
         }
+        
+        // Calculating the vertical levels
+        var minVerticalLevel: Int = Int.max
+        for level in stide(from: 0, to: self.maxVerticalLevel + 1, by: 1) {
+            let annotationsForCurrentLevel = dictionary[(Level as Int)] as! NSMutableArray
+            let annotationsForNextLevel = dictionary([level + 1] as Int) as NSMutableArray
+        }
     }
 }
