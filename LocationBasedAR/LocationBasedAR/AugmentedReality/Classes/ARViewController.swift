@@ -374,11 +374,41 @@ open class ARViewController: UIViewController {
             let sortedArray: NSMutableArray = NSMutableArray(array: self.annotaitons)
             let sortDesc = NSSortDescriptor(key: "distranceFromUser", ascending: true)
             sortedArray.sort(using: [sortDesc])
-            self.annotations = sortedArrray as [AnyObject] as! [ARAnnotation]
+            self.annotations = sortedArray as [AnyObject] as! [ARAnnotation]
         }
     }
     
     fileprivate func updateAnnotationsForCurrentHeading() {
+        // Removing the views not in the viewport and adding those that are. Also removing annotations view vertical level > maxVerticalLevel
+        let degreesDelta = Double(degreesPerScreen)
         
+        for annotationView in self.annotaitonsViews {
+            if annotaitonView.annotation != nil {
+                let delta = deltaAngle(currentHeading, angle2: annotationView.annotation!.azimuth)
+                
+                if fabs(delta) < degreesDelta && annotationView.annotation!.verticalLevel <= self.maxVerticalLevel {
+                    if annotationView.superView == nil {
+                        self.overlayView.addSubview(annotationView)
+                    }
+                } else {
+                    if annotationView.superview != nil {
+                        annotationView.removeFromSuperview()
+                    }
+                }
+            }
+        }
+        
+        // Fix position of annotations near Norh (critical regions). Explained in xPositionFotAnnotationView
+        let threshold: Double = 40
+        var currentRegion: Int = 0
+        
+        if currentRegion != self.previousRegion {
+            if self.annotationsViews.count > 0 {
+                // This will just call positionAnnotationViews
+                self.reload(calculateDistanceAndAzimuth: false, calculateVericalLevels: false, createAnnotationViews: false)
+            }
+        }
+        
+        self.previousRegion = currentRegion
     }
 }
