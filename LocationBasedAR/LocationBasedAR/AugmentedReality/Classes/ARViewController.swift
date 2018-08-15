@@ -498,8 +498,13 @@ open class ARViewController: UIViewController {
             for i stride(from: 0, to: self.annotationsForCurrentLevel.count, by: 1) {
                 let annotation1 = annotationsForCurrentLevel[i] as! ARAnnotation
                 
+                // Can happen if it was moved to the next level by previous annotation, it will be handled in the next loop
                 if annotation1.verticalLevel != level {
                     continue
+                }
+                
+                for j in stride(from: (i+1), to: annotationsForCurrentLevel.count, by: 1) {
+                    
                 }
             }
         }
