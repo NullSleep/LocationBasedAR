@@ -460,4 +460,24 @@ open class ARViewController: UIViewController {
         yPos -= CGFloat(powf(Float(annotation.verticalLevel), 2) * 4)
         return yPos
     }
+    
+    fileprivate func calculateVericalLevels() {
+        // It's faster with the NS libraries than the swift collection calsses
+        let dictionary: NSMutableDictionary = NSMutableDictionary()
+        
+        // Creating a dictionary for each vertical level
+        for level in stride(from: 0, to: self.maxVerticalLevel + 1, by: 1) {
+            let array = NSMutableArray()
+            dictionary[Int(level)] = array
+        }
+        
+        // Putting each annotation in its dictionary (each level has its own dictionary )
+        for i in stride(from: 0, to: self.activeAnnotations.count, by: 1) {
+            let annotation = self.activeAnnotations[i] as ARAnnotation
+            if annotation.verticalLevel <= self.maxVerticalLevel {
+                let array = dictionary[annotation.verticalLevel] as? NSMutableArray
+                array?.add(annotation)
+            }
+        }
+    }
 }
