@@ -448,4 +448,16 @@ open class ARViewController: UIViewController {
         }
         return xPos
     }
+    
+    fileprivate func yPositionForAnnotationView(_ annotationView: ARAnnotationView) -> CGFloat {
+        if annotationView.annotation == nil {
+            return 0
+        }
+        let annotation = annotationView.annotation!
+        
+        let annotationViewHeight: CGFloat = annotationView.bounds.size.height
+        var yPos: CGFloat = (self.view.bounds.size.height * 0.65) - (annotationViewHeight * CGFloat(annotation.verticalLevel))
+        yPos -= CGFloat(powf(Float(annotation.verticalLevel), 2) * 4)
+        return yPos
+    }
 }
