@@ -398,7 +398,7 @@ open class ARViewController: UIViewController {
             }
         }
         
-        // Fix position of annotations near Norh (critical regions). Explained in xPositionFotAnnotationView
+        // Fix position of annotations near North (critical regions). Explained in xPositionFotAnnotationView
         let threshold: Double = 40
         var currentRegion: Int = 0
         
@@ -410,5 +410,42 @@ open class ARViewController: UIViewController {
         }
         
         self.previousRegion = currentRegion
+    }
+    
+    fileprivate func positionAnnotationViews() {
+        for annotationView in self.annotationsViews {
+            let x = self.xPositionForAnnotationView(annotationView, heading: self.trackingManager.heading)
+            let y = self.yPositionForAnnotationView(annotationView)
+            annotationView.frame = CGRect(x: x, y: y, width: annotationView.bounds.size.width, height: annotationView.bounds.size.height)
+        }
+    }
+    
+    fileprivate func xPositionForAnnotationView(_ annotationView: ARAnnotationView, heading: Double) -> CGFloat {
+        if annotationView.annotation == nil {
+            return 0
+        }
+        let annotation = annotationView.annotation!
+        
+        // Azimuth
+        let azimuth = annotation.azimuth
+        
+        // Calculating x position
+        var xPos: CGFloat = CGFloat(azimuth) * H_PIXELS_PER_DEGREE - annotationView.bounds.size.width / 2.0
+        
+        // Fixing position in critical areas (near north).
+        // If current heading is right of norht (< 40), annotations that are between 320 - 360 won't be visible so we change their position so they are visible. Also if
+        // current heading is left of north (320 - 360), annotations that are between 0 - 40 won't be visible so we change their position so they are visible.
+        // This is needed because all annotation views are on the same overaly view so that views at the start and the end of the overlay view can't be visible at the same time.
+        let threshold: Double = 40
+        if heading < threshold {
+            if annotation.azimuth > (360 - threshold) {
+                xPos = -(OVERLAY_VIEW_WIDTH - xPos);
+            }
+        } else if heading > (360 - threshold) {
+            if annotation.azimuth < threshold {
+                xPos = OVERLAY_VIEW_WIDTH + xPos;
+            }
+        }
+        return xPos
     }
 }
