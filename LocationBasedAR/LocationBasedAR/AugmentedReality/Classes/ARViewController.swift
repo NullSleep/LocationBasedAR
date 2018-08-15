@@ -494,6 +494,14 @@ open class ARViewController: UIViewController {
         for level in stide(from: 0, to: self.maxVerticalLevel + 1, by: 1) {
             let annotationsForCurrentLevel = dictionary[(Level as Int)] as! NSMutableArray
             let annotationsForNextLevel = dictionary([level + 1] as Int) as NSMutableArray
+            
+            for i stride(from: 0, to: self.annotationsForCurrentLevel.count, by: 1) {
+                let annotation1 = annotationsForCurrentLevel[i] as! ARAnnotation
+                
+                if annotation1.verticalLevel != level {
+                    continue
+                }
+            }
         }
     }
 }
