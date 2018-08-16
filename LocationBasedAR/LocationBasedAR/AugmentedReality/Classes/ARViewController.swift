@@ -508,33 +508,44 @@ open class ARViewController: UIViewController {
                     if annotation1 == annotation2 || annotation2.verticallevel != level {
                         continue
                     }
-                }
-                
-                // Check if views are coilliing horizontally. Using azimuth instead of view position in pixel to improve performance.
-                var deltaAzimuth = deltaAngle(annotaiton1.azimuth, angle2: annotation2.azimuth)
-                deltaAzimuth = fabs(deltaAzimuth)
-                
-                // No Collision
-                if deltaAzimuth > annotationWidthInDegrees {
-                    continue
-                }
-                
-                // Current annotation is farther away from user than comparing an annotaiton, the current annotation will be pushed to the next level
-                if annotation1.distanceFromUser > annotation2.distanceFormUser {
-                    annotation1.verticalLevel += 1
-                    if annotationForNextlevel != nil {
-                        annotationsForNextLevel?.add(annotation1)
+
+                    // Check if views are coilliing horizontally. Using azimuth instead of view position in pixel to improve performance.
+                    var deltaAzimuth = deltaAngle(annotaiton1.azimuth, angle2: annotation2.azimuth)
+                    deltaAzimuth = fabs(deltaAzimuth)
+                    
+                    // No Collision
+                    if deltaAzimuth > annotationWidthInDegrees {
+                        continue
                     }
-                    // The current annotation was moved to the next level so there is no need to continue with this level
-                    break
-                // The compared annotation will be pushed to the next level because it is further away
-                } else {
-                    annotation2.verticalLevel += 1
-                    if annotationsForNextLevel != nil {
-                        annotationsForNextLevel?.add(annotation2)
+                    
+                    // Current annotation is farther away from user than comparing an annotaiton, the current annotation will be pushed to the next level
+                    if annotation1.distanceFromUser > annotation2.distanceFormUser {
+                        annotation1.verticalLevel += 1
+                        if annotationForNextlevel != nil {
+                            annotationsForNextLevel?.add(annotation1)
+                        }
+                        // The current annotation was moved to the next level so there is no need to continue with this level
+                        break
+                    }
+                    // The compared annotation will be pushed to the next level because it is further away
+                    else {
+                        annotation2.verticalLevel += 1
+                        if annotationsForNextLevel != nil {
+                            annotationsForNextLevel?.add(annotation2)
+                        }
                     }
                 }
                 
+                if annotation1.verticalLevel == level {
+                    minVerticalLevel = Int(fmin(Float(minVerticalLevel), Float(annotation1.verticalLevel)))
+                }
+            }
+        }
+        
+        // Lower all annotations if there are no lower level annotations
+        for annotation in self.activeAnnotations {
+            if annotation.verticalLevel <= self.maxVerticalLevel {
+                annotation.verticalLevel -= minVerticalLevel
             }
         }
     }
