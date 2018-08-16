@@ -584,4 +584,50 @@ open class ARViewController: UIViewController {
             annotation.verticalLevel = verticalLevel
         }
     }
+    
+    fileprivate func getAnnotationView() -> ARAnnotationView? {
+        var anyAnnotaitonView: ARAnnotationView? = nil
+        
+        if let annotationView = self.annotationsViews.first {
+            anyAnnotaitonView = annotationView
+        }  else if let annotation = self.activeAnnotations.first {
+            anyAnnotaitonView = self.dataSource?.ar(self, viewForAnnotation: annotation)
+        }
+        
+        return anyAnnotaitonView
+    }
+    
+    // MARK: - Main Logic
+    
+    fileprivate func reload(calculateDistanceAndAzimuth: Bool, calculateVerticalLevels: Bool, createAnnotationViews: Bool) {
+        if calculateDistanceAndAzimuth {
+            // Sort by distance is needed only if creating new views
+            let sort = createAnnotationViews
+            // Calculations for all annotations should be donde only when creating annotations views
+            let onlyForActiveAnnotaitons = !createAnnotationViews
+            self.calculateDistanceAndAzimuthForAnnotations(sort: sort, onlyForActiveAnnotations: onlyForActiveAnnotaitons)
+        }
+        
+        if (createAnnotationViews) {
+            self.activeAnnotations = filteredAnnotations(nil, maxVisibleAnnotations: self.maxVisibleAnnotations, maxDistance: self.maxDistance)
+            self.setInitialVerticalLevels()
+        }
+        
+        if calculateVerticalLevels {
+            self.calculateVericalLevels()
+        }
+        
+        if createAnnotationViews {
+            self.createAnnotationViews()
+        }
+        
+        self.positionAnnotationViews()
+        
+        // Calling bindUI on every annotation view so it can referesh its content, doing this every time distance chages, in case distance is needed for display
+        if calculateDistanceAndAzimuth {
+            for annotationView in self.annotationsViews {
+                annotationView.bindUI()
+            }
+        }
+    }
 }
