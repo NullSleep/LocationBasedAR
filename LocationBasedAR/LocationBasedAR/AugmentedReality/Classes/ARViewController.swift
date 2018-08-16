@@ -480,7 +480,7 @@ open class ARViewController: UIViewController {
             }
         }
         
-        // Calculating the annotation view's widht in degrees. Asuming all annotation views have the same width.
+        // Calculating the annotation view's width in degrees. Asuming all annotation views have the same width.
         var annotationWidthInDegrees: Double = 0
         if let annotationWidth = self.getAnyAnnotationView()?.bounds.size.width {
             annotationWidthInDegrees = Double(annotationWidth / H_PIXELS_PER_DEGREE)
@@ -491,11 +491,11 @@ open class ARViewController: UIViewController {
         
         // Calculating the vertical levels
         var minVerticalLevel: Int = Int.max
-        for level in stide(from: 0, to: self.maxVerticalLevel + 1, by: 1) {
-            let annotationsForCurrentLevel = dictionary[(Level as Int)] as! NSMutableArray
-            let annotationsForNextLevel = dictionary([level + 1] as Int) as NSMutableArray
+        for level in stride(from: 0, to: self.maxVerticalLevel + 1, by: 1) {
+            let annotationsForCurrentLevel = dictionary[(level as Int)] as! NSMutableArray
+            let annotationsForNextLevel = dictionary[((level + 1) as Int)] as? NSMutableArray
             
-            for i stride(from: 0, to: self.annotationsForCurrentLevel.count, by: 1) {
+            for i in stride(from: 0, to: self.annotationsForCurrentLevel.count, by: 1) {
                 let annotation1 = annotationsForCurrentLevel[i] as! ARAnnotation
                 
                 // Can happen if it was moved to the next level by previous annotation, it will be handled in the next loop
@@ -509,6 +509,32 @@ open class ARViewController: UIViewController {
                         continue
                     }
                 }
+                
+                // Check if views are coilliing horizontally. Using azimuth instead of view position in pixel to improve performance.
+                var deltaAzimuth = deltaAngle(annotaiton1.azimuth, angle2: annotation2.azimuth)
+                deltaAzimuth = fabs(deltaAzimuth)
+                
+                // No Collision
+                if deltaAzimuth > annotationWidthInDegrees {
+                    continue
+                }
+                
+                // Current annotation is farther away from user than comparing an annotaiton, the current annotation will be pushed to the next level
+                if annotation1.distanceFromUser > annotation2.distanceFormUser {
+                    annotation1.verticalLevel += 1
+                    if annotationForNextlevel != nil {
+                        annotationsForNextLevel?.add(annotation1)
+                    }
+                    // The current annotation was moved to the next level so there is no need to continue with this level
+                    break
+                // The compared annotation will be pushed to the next level because it is further away
+                } else {
+                    annotation2.verticalLevel += 1
+                    if annotationsForNextLevel != nil {
+                        annotationsForNextLevel?.add(annotation2)
+                    }
+                }
+                
             }
         }
     }
