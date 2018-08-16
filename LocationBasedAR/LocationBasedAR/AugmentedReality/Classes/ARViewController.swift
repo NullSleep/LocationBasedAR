@@ -549,4 +549,39 @@ open class ARViewController: UIViewController {
             }
         }
     }
+    
+    // It is expected that annotations are sorted by distance before this method is called
+    fileprivate func setInitialVerticalLevels() {
+        if self.activeAnnotations.count == 0 {
+            return
+        }
+        
+        // Fetch annotations filtered by maximumDistance and maximumAnnodationsOnScreen
+        let activeAnnotations = self.activeAnnotations
+        var minDistance = activeAnnotations.first!.distanceFromUser
+        var maxDistance = activeAnnotations.last!.distanceFromUser
+        
+        if self.maxDistance > 0 {
+            minDistance = 0;
+            maxDistance = self.maxDistance
+        }
+        
+        var deltaDistance = maxDistance - minDistance
+        let maxLevel: Double = Double(self.maxVerticalLevel)
+        
+        // First reset vertical levels for all annotations
+        for annotation in self.annotaitons {
+            annotation.verticalLevel = self.maxVerticalLevel + 1
+        }
+        
+        if deltaDistance <= 0 {
+            deltaDistance = 1
+        }
+        
+        // Calculate vertical levels for active annotations
+        for annotation in activeAnnotations {
+            let verticalLevel = Int(((annotation.distanceFromUser - minDistance) / deltaDistance) * maxLevel)
+            annotation.verticalLevel = verticalLevel
+        }
+    }
 }
