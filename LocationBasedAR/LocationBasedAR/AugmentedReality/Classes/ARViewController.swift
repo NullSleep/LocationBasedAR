@@ -630,4 +630,22 @@ open class ARViewController: UIViewController {
             }
         }
     }
+    
+    // Determines which annotations are active and which are inactive. If some of the input parameters are nil, then it won't filter by that parameter
+    fileprivate func filteredAnnotations(_ maxVerticalLevels: Int?, maxVisibleAnnotations: Int?, maxDistance: Double?) -> [ARAnnotation] {
+        let nsAnnotaitons: NSMutableArray = NSMutableArray(array: self.annotaitons)
+        var filteredAnnotations: [ARAnnotation] = []
+        var count = 0
+        let checkMaxVisibleAnnotations = maxVisibleAnnotations != nil
+        let checkMaxVerticalLevel = maxVerticallevel != nil
+        let checkMaxDistance = maxDistance != nil
+        
+        for nsAnnotaion in nsAnnotaitons {
+            let annotation = nsAnnotation as! ARAnnotation
+            
+            // Filter by maxVisibleAnnotaitons
+            
+        }
+    }
+    
 }
