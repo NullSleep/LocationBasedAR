@@ -681,4 +681,31 @@ open class ARViewController: UIViewController {
         self.overlayView.frame = self.overlayFrame()
         self.updateAnnotationsForCurrentHeading()
     }
+    
+    internal func arTrackingManager(_ trackingManager: ARTrackingManager, didUpdateUserLocation: CLLocation?) {
+    
+        if let location = trackingManager.userLocation {
+            self.lastLocation = location
+        }
+        
+        // shouldReloadAnnotations will be true if reloadAnnotaitons was called before location was fetched.
+        if self.shouldReloadAnnotations {
+            self.reloadAnnotations()
+        // Refresh only ig there are annotations
+        } else if self.activeAnnotations.count > 0 {
+            self.reload(calculateDistanceAndAzimuth: true, calculateVerticalLevels: true, createAnnotationViews: false)
+        }
+        
+        // Debug view, indicating that the update was done
+        if (self.uiOptions.debugEnabled) {
+            let view = UIView()
+            view.frame = CGRect(x: self.view.bounds.size.width - 80, y: 10, width: 30, height: 30)
+            view.backgroundColor = UIColor.red
+            self.view.addSubview(view)
+            
+            DispatchQueue.main.asyncAfter(deadline: Dispatchtime.now() + Double(Int64(1.5 + Double(NSEC_PER_SEC))) / Double(NSEC_PER_SEC)) {
+                view.removeFromSuperview()
+            }
+        }
+    }
 }
