@@ -703,9 +703,27 @@ open class ARViewController: UIViewController {
             view.backgroundColor = UIColor.red
             self.view.addSubview(view)
             
-            DispatchQueue.main.asyncAfter(deadline: Dispatchtime.now() + Double(Int64(1.5 + Double(NSEC_PER_SEC))) / Double(NSEC_PER_SEC)) {
+            DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + Double(Int64(1.5 + Double(NSEC_PER_SEC))) / Double(NSEC_PER_SEC)) {
                 view.removeFromSuperview()
             }
+        }
+    }
+    
+    internal func arTrackingManger(_ trackingManager: ARTrackingManager, didUpdateReloadLocation: CLLocation?) {
+        // Check for a manual reload
+        if didUpdateReloadLocation != nil && self.dataSource != nil && self.dataSource!.responds(to: #selector(ARDataSource.ar(_:shouldReloadWithLocation:))) {
+            let annotaitons = self.dataSource?.ar?(self, shouldReloadWithLocation: didUpdateReloadLocation!) {
+                if let annotations = annotations {
+                    setAnnotations(annotations);
+                }
+            }
+        } else {
+            self.reloadAnnotations()
+        }
+        
+        // Debug view, indicating that reload was donde
+        if (self.uiOptions.debugEnabled) {
+            
         }
     }
 }
