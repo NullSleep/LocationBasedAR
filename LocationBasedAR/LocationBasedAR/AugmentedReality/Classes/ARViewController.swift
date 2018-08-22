@@ -663,4 +663,16 @@ open class ARViewController: UIViewController {
         return filteredAnnotations
     }
     
+    // MARK: Events: ARLocationMangerDelegate/Display Timer
+    
+    internal func displayTimerTick() {
+        let filterFactor: Double = headingSmoothingFactor
+        let newHeading = self.trackingManager.heading
+        
+        // Picking up the pace if the device is being rotated fast or heading of device is at the border (North). This is needed to be done in the North border because
+        // overlayView changes its position and we don't want it to animate full circle.
+        if (self.headingSmoothingFactor == 1 || fabs(currentHeading - self.trackingManager.heading) > 50) {
+            currentHeading = self.trackingManager.heading
+        }
+    }
 }
