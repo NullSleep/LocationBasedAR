@@ -741,4 +741,14 @@ open class ARViewController: UIViewController {
     internal func logText(_ text: String) {
         self.debugLabel?.text = text
     }
+    
+    // MARK: Camera
+    
+    fileprivate func loadCamera() {
+        self.cameraLayer?.removeFromSuperlayer()
+        self.cameraLayer = nil
+        
+        // Video device/video input
+        let captureSessionResult = ARViewController.createCaptureSession()
+    }
 }
