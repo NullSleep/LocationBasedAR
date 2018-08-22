@@ -723,7 +723,22 @@ open class ARViewController: UIViewController {
         
         // Debug view, indicating that reload was donde
         if (self.uiOptions.debugEnabled) {
+            let view = UIView()
+            view.frame = CGRect(x: self.view.bounds.size.width - 80, y: 10, width:30, height: 30)
+            view.backgroundColor = UIColor.blue
+            self.view.addSubview(view)
             
+            DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + Double(Int64(1.5 * Double(NSEC_PER_SEC))) / Double(NSEC_PER_SEC)) {
+                view.removeFromSuperview()
+            }
         }
+    }
+    
+    internal func arTrackingManager(_ trackingManager: ARTrackingManager, didFailToFindLocationAfter elapsedSeconds: TimeInterval) {
+        self.onDidFailToFindLocation?(elapsedSeconds, self.lastLocation != nil)
+    }
+    
+    internal func logText(_ text: String) {
+        self.debugLabel?.text = text
     }
 }
