@@ -673,6 +673,12 @@ open class ARViewController: UIViewController {
         // overlayView changes its position and we don't want it to animate full circle.
         if (self.headingSmoothingFactor == 1 || fabs(currentHeading - self.trackingManager.heading) > 50) {
             currentHeading = self.trackingManager.heading
+        } else {
+            // Smoothing out the heading
+            currentHeading = (newHeading * filterFactor) + (currentHeading * (1.0 - filterFactor))
         }
+        
+        self.overlayView.frame = self.overlayFrame()
+        self.updateAnnotationsForCurrentHeading()
     }
 }
