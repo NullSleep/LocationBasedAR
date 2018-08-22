@@ -608,7 +608,7 @@ open class ARViewController: UIViewController {
             self.calculateDistanceAndAzimuthForAnnotations(sort: sort, onlyForActiveAnnotations: onlyForActiveAnnotaitons)
         }
         
-        if (createAnnotationViews) {
+        if createAnnotationViews {
             self.activeAnnotations = filteredAnnotations(nil, maxVisibleAnnotations: self.maxVisibleAnnotations, maxDistance: self.maxDistance)
             self.setInitialVerticalLevels()
         }
@@ -637,15 +637,30 @@ open class ARViewController: UIViewController {
         var filteredAnnotations: [ARAnnotation] = []
         var count = 0
         let checkMaxVisibleAnnotations = maxVisibleAnnotations != nil
-        let checkMaxVerticalLevel = maxVerticallevel != nil
+        let checkMaxVerticalLevel = maxVerticalLevel != nil
         let checkMaxDistance = maxDistance != nil
         
-        for nsAnnotaion in nsAnnotaitons {
+        for nsAnnotation in nsAnnotaitons {
             let annotation = nsAnnotation as! ARAnnotation
             
             // Filter by maxVisibleAnnotaitons
+            if checkMaxVisibleAnnotations && count >= maxVisibleAnnotations! {
+                annotation.active = false
+                continue
+            }
             
+            // Filter by maxVerticalLevel and maxDistance
+            if (!checkMaxVerticalLevel || annotation.verticalLevel <= maxVerticalLevel!) &&
+                (checkMaxDistance || self.maxDistance == 0 || annotation.distanceFromUser <= maxDistance!) {
+                filteredAnnotations.append(annotation)
+                annotation.active = true
+                count += 1;
+            } else {
+                annotation.active = false
+            }
         }
+        
+        return filteredAnnotations
     }
     
 }
