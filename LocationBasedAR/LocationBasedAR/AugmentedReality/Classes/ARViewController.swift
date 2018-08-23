@@ -663,7 +663,7 @@ open class ARViewController: UIViewController {
         return filteredAnnotations
     }
     
-    // MARK: Events: ARLocationMangerDelegate/Display Timer
+    // MARK: - Events: ARLocationMangerDelegate/Display Timer
     
     internal func displayTimerTick() {
         let filterFactor: Double = headingSmoothingFactor
@@ -742,7 +742,7 @@ open class ARViewController: UIViewController {
         self.debugLabel?.text = text
     }
     
-    // MARK: Camera
+    // MARK: - Camera
     
     fileprivate func loadCamera() {
         self.cameraLayer?.removeFromSuperlayer()
@@ -821,5 +821,27 @@ open class ARViewController: UIViewController {
         self.trackingManager.stopTracking()
         self.displayTimer?.invalidate()
         self.displayTimer = nil
+    }
+    
+    // MARK: - Overlay
+    
+    // Overlay view is used to host annotation views
+    fileprivate func loadOverlay() {
+        self.overlayView.removeFromSuperview()
+        self.overlayView = OveralyView()
+        self.view.addSubview(self.overlayView)
+    }
+    
+    fileprivate func overlayFrame() -> CRect {
+        let x: CGFloat = self.view.bounds.size.width / 2 - (CGFloat(currentHeading) * H_PIXELS_PER_DEGREE)
+        let y: CGFloat = (CGFloat(self.trackingManager.pitch) * VERTICAL_SENS) + 60.0
+        
+        let newFrame = CGRect(x: x, y: y, width: OVERLAY_VIEW_WIDTH, height: self.view.bounds.size.height)
+        return newFrame
+    }
+    
+    fileprivate func layoutUi() {
+        self.cameraLayer?.frame = self.view.bounds
+        self.overlayView.frame = self.overlayFrame()
     }
 }
