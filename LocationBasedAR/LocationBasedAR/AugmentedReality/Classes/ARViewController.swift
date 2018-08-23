@@ -832,7 +832,7 @@ open class ARViewController: UIViewController {
         self.view.addSubview(self.overlayView)
     }
     
-    fileprivate func overlayFrame() -> CRect {
+    fileprivate func overlayFrame() -> CGRect {
         let x: CGFloat = self.view.bounds.size.width / 2 - (CGFloat(currentHeading) * H_PIXELS_PER_DEGREE)
         let y: CGFloat = (CGFloat(self.trackingManager.pitch) * VERTICAL_SENS) + 60.0
         
@@ -843,5 +843,25 @@ open class ARViewController: UIViewController {
     fileprivate func layoutUi() {
         self.cameraLayer?.frame = self.view.bounds
         self.overlayView.frame = self.overlayFrame()
+    }
+    
+    // MARK: - Rotation/Orientation
+    
+    open override var shouldAutorotate: Bool {
+        return true
+    }
+    
+    open override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
+        return UIInterfaceOrientationMask(rawValue: self.interfaceOrientationMask.rawValue)
+    }
+    
+    open override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+        super.viewWillTransition(to: size, with: coordinator)
+        
+        coordinator.animate(alongsideTransition: (coordinatorContext) in {
+            self.setOrientation(UIApplication.shared.statusBarOrientation)
+        }) { [unowned self] (coordinatorContext) in
+            self.layourAndReloadOnOrientationChange()
+        }
     }
 }
