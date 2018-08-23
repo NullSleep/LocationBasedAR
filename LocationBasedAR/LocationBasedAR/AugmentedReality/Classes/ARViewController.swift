@@ -808,4 +808,18 @@ open class ARViewController: UIViewController {
         
         return (session: captureSession, error: error)
     }
+    
+    fileprivate func startCamera(notifyLocationFailure: Bool) {
+        self.cameraSession.startRunning()
+        self.trackingManager.startTracking(notifyLocationFailure: notifyLocationFailure)
+        self.displayTimer = CADisplayLink(target: self, selector: #selector(ARViewController.displayTimerTick))
+        self.displayTimer?.add(to: RunLoop.current, forMode: RunLoopMode.defaultRunLoopMode)
+    }
+    
+    fileprivate func stopCamera() {
+        self.cameraSession.stopRunning()
+        self.trackingManager.stopTracking()
+        self.displayTimer?.invalidate()
+        self.displayTimer = nil
+    }
 }
