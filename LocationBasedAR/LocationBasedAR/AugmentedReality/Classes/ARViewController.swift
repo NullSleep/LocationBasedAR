@@ -750,5 +750,18 @@ open class ARViewController: UIViewController {
         
         // Video device/video input
         let captureSessionResult = ARViewController.createCaptureSession()
+        guard captureSessionResult.error == nil, let session = captureSessionResult.session else {
+            print("HDAugmentedReality: Cannot create capture session, use createCaptureSession methods method to check if device is capable for augmented reality.")
+            return
+        }
+        
+        self.cameraSession = session
+        
+        // View preview layer
+        if let cameraLayer = AVCaptureVideoPreviewLayer(session: self.cameraSession) {
+            cameraLayer.videoGravity = AVLayerVideoGravityResizeAspectFill
+            self.view.layer.insertSublayer(cameraLayer, at: 0)
+            self.cameraLayer = cameraLayer
+        }
     }
 }
