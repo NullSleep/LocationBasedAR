@@ -764,4 +764,48 @@ open class ARViewController: UIViewController {
             self.cameraLayer = cameraLayer
         }
     }
+    
+    // Tries to find the back video device and adds video input to it. This method can be used to check if device has hardware available for augmented reality.
+    open class func createCaptureSession() -> (session: AVCaptureSession?, error: NSError?) {
+        var error: NSError?
+        var captureSession: AVCaptureSession?
+        var backVideoDevice: AVCatpureDevice?
+        let videoDevices = AVCaptureDevice.devices(withMediaType: AVMediaType)
+        
+        // Get back video device
+        if let videoDevices = videoDevices {
+            for capatureDevice in videoDevices {
+                if (AVCaptureDevice as AnyObject).position == AVCaptureDevicePosition.back {
+                    backVideoDevice = captureDevice as? AVCaptureDevice
+                    break
+                }
+            }
+        }
+        
+        if backVideoDevice != nil {
+            var videoInput: AVCaptureDeviceInput!
+            do {
+                videoInput = try AVCaptureDeviceInput(device: backVideoDevice)
+            } catch let error1 as NSError {
+                error = error1
+                videoInput = nil
+            }
+            
+            if error == nil {
+                captureSession = AVCaptureSession()
+                
+                if captureSession!.canAddInput(videoInput) {
+                    captureSession!.addInput(videoInput)
+                } else {
+                    error = NSError(domain: "HDAugmentedReality", code: 10002, userInfo: ["Decription": "Error adding video input."])
+                }
+            } else {
+                error = NSError(domain: "HDAugmentedReality", code: 10001, userInfo: ["Description": "Error creating capture device input."])
+            }
+        } else {
+            error = NSError(domain: "HDAugmentedReality", code: 10000, userInfo: ["Description": "Back video device not found."])
+        }
+        
+        return (session: captureSession, error: error)
+    }
 }
