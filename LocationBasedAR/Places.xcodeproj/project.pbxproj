@@ -166,7 +166,7 @@
 				TargetAttributes = {
 					8F7404421DCDD569009A6F0B = {
 						CreatedOnToolsVersion = 8.1;
-						DevelopmentTeam = KL6NU6Q5M2;
+						DevelopmentTeam = 4U2S8Z38EC;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -341,10 +341,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = KL6NU6Q5M2;
+				DEVELOPMENT_TEAM = 4U2S8Z38EC;
 				INFOPLIST_FILE = Places/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.razeware.Places;
+				PRODUCT_BUNDLE_IDENTIFIER = polygon.development;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
 			};
@@ -354,10 +354,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = KL6NU6Q5M2;
+				DEVELOPMENT_TEAM = 4U2S8Z38EC;
 				INFOPLIST_FILE = Places/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.razeware.Places;
+				PRODUCT_BUNDLE_IDENTIFIER = polygon.development;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
 			};
