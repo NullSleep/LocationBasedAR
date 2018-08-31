@@ -43,13 +43,16 @@ class ViewController: UIViewController {
     
     // The manager needs a delegate to notify when it has updated the position of the device.
     locationManager.delegate = self
-    /// For desired accuracy you should alwats use the lowest accuracy that is good enough for the project's goals. This is because  if we only need an accuracy of some hundred meters then the LocationManager can use phone cells and WLANs to get the position.
-    // This saves battery life, whihc you know is a big limiting factor on mobile devices. But if you need a better determination
-    // of the position, the LocationManager will use GPS, which drains the battery very fast. This is also why you should stop
-    // updating the position as soon as you have an accepatable value.
+    /// For desired accuracy you should alwats use the lowest accuracy that is good enough for the project's goals.
+    // This is because  if we only need an accuracy of some hundred meters then the LocationManager can use phone cells
+    // and WLANs to get the position.
+    // This saves battery life, whihc you know is a big limiting factor on mobile devices. But if you need a better
+    // determination of the position, the LocationManager will use GPS, which drains the battery very fast. This is
+    // also why you should stop updating the position as soon as you have an accepatable value.
     locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
     locationManager.startUpdatingLocation()
-    // Starts the manager and asls the user to grant permission to access location services if it was not already granted or denied.
+    // Starts the manager and asls the user to grant permission to access location services if it was not already
+    // granted or denied.
     locationManager.requestWhenInUseAuthorization()
   }
   
