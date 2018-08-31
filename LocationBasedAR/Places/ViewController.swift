@@ -93,6 +93,8 @@ extension ViewController: CLLocationManagerDelegate {
         let region = MKCoordinateRegion(center: location.coordinate, span: span)
         mapView.region = region
         
+        // This starts loading a list of POIs that are within a radius of 1000 meters of the user's  current position,
+        // and print them to the  console.
         if !startedLoadingPOIs {
           let loader = PlacesLoader()
           loader.loadPOIS(location: location, radius: 1000) { placesDict, error in

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		237C6066213902F20079A375 /* PlaceAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 237C6065213902F20079A375 /* PlaceAnnotation.swift */; };
 		8F7404471DCDD569009A6F0B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F7404461DCDD569009A6F0B /* AppDelegate.swift */; };
 		8F7404491DCDD569009A6F0B /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F7404481DCDD569009A6F0B /* ViewController.swift */; };
 		8F74044C1DCDD569009A6F0B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8F74044A1DCDD569009A6F0B /* Main.storyboard */; };
@@ -27,6 +28,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		237C6065213902F20079A375 /* PlaceAnnotation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceAnnotation.swift; sourceTree = "<group>"; };
 		8F7404431DCDD569009A6F0B /* Places.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Places.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8F7404461DCDD569009A6F0B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		8F7404481DCDD569009A6F0B /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -89,6 +91,7 @@
 				8F74044D1DCDD569009A6F0B /* Assets.xcassets */,
 				8F74044F1DCDD569009A6F0B /* LaunchScreen.storyboard */,
 				8F7404521DCDD569009A6F0B /* Info.plist */,
+				237C6065213902F20079A375 /* PlaceAnnotation.swift */,
 			);
 			path = Places;
 			sourceTree = "<group>";
@@ -213,6 +216,7 @@
 			files = (
 				8F7404801DCF31B0009A6F0B /* PlacesLoader.swift in Sources */,
 				8F74046A1DCDD5F5009A6F0B /* ARViewController.swift in Sources */,
+				237C6066213902F20079A375 /* PlaceAnnotation.swift in Sources */,
 				8F7404491DCDD569009A6F0B /* ViewController.swift in Sources */,
 				8F7404661DCDD5F5009A6F0B /* ARAnnotation.swift in Sources */,
 				8F74046B1DCDD5F5009A6F0B /* DebugMapViewController.swift in Sources */,
