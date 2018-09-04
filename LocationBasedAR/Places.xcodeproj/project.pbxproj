@@ -86,12 +86,12 @@
 				8F7404481DCDD569009A6F0B /* ViewController.swift */,
 				8F74047E1DCF31B0009A6F0B /* PlacesLoader.swift */,
 				8F74047F1DCF31B0009A6F0B /* Place.swift */,
+				237C6065213902F20079A375 /* PlaceAnnotation.swift */,
 				8F7404581DCDD5F5009A6F0B /* HDAugmentedReality */,
 				8F74044A1DCDD569009A6F0B /* Main.storyboard */,
 				8F74044D1DCDD569009A6F0B /* Assets.xcassets */,
 				8F74044F1DCDD569009A6F0B /* LaunchScreen.storyboard */,
 				8F7404521DCDD569009A6F0B /* Info.plist */,
-				237C6065213902F20079A375 /* PlaceAnnotation.swift */,
 			);
 			path = Places;
 			sourceTree = "<group>";
