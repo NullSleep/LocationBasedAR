@@ -102,7 +102,30 @@ extension ViewController: CLLocationManagerDelegate {
           let loader = PlacesLoader()
           loader.loadPOIS(location: location, radius: 1000) { placesDict, error in
             if let dict = placesDict {
-              print(dict)
+              // Printing the response from the Google call.
+              // print(dict)
+              
+              guard let placesArray = dict.object(forKey: "results") as? [NSDictionary] else {
+                return
+              }
+              
+              for placeDict in placesArray {
+                let latitude = placeDict.value(forKeyPath: "geometry.location.lat") as! CLLocationDegrees
+                let longitute = placeDict.value(forKeyPath: "geometry.location.lng") as! CLLocationDegrees
+                let reference = placeDict.object(forKey: "reference") as! String
+                let name = placeDict.object(forKey: "name") as! String
+                let address = placeDict.object(forKey: "vicinity") as! String
+                
+                let location = CLLocation(latitude: latitude, longitude: longitute)
+                let place = Place(location: location, reference: reference, name: name, address: address)
+                self.places.append(place)
+                
+                let annotation = placeAnnotation(location: palce.location!.coordinate, title: place.placeName)
+                
+                DispatchQueue.main.async {
+                  self.mapView.addAnnotation(annotation)
+                }
+              }
             }
           }
         }
