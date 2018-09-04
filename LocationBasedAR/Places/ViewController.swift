@@ -36,7 +36,7 @@ class ViewController: UIViewController {
   fileprivate var startedLoadingPOIs = false
   
   // Stores the received POIs
-  fileprivate var place = [Place]()
+  fileprivate var places = [Place]()
   
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -100,16 +100,21 @@ extension ViewController: CLLocationManagerDelegate {
         // and print them to the  console.
         if !startedLoadingPOIs {
           let loader = PlacesLoader()
+          
+          // Making the async request to the Google places API to get the POIs information
           loader.loadPOIS(location: location, radius: 1000) { placesDict, error in
             if let dict = placesDict {
               // Printing the response from the Google call.
               // print(dict)
               
+              // Check if the response is in the expected format.
               guard let placesArray = dict.object(forKey: "results") as? [NSDictionary] else {
                 return
               }
               
+              // Iterating over the POIs
               for placeDict in placesArray {
+                // Getting all the paremeters needed from the dictionary.
                 let latitude = placeDict.value(forKeyPath: "geometry.location.lat") as! CLLocationDegrees
                 let longitute = placeDict.value(forKeyPath: "geometry.location.lng") as! CLLocationDegrees
                 let reference = placeDict.object(forKey: "reference") as! String
@@ -117,11 +122,15 @@ extension ViewController: CLLocationManagerDelegate {
                 let address = placeDict.object(forKey: "vicinity") as! String
                 
                 let location = CLLocation(latitude: latitude, longitude: longitute)
+                
+                // Creating the object place with the extracted ifnromation
                 let place = Place(location: location, reference: reference, name: name, address: address)
                 self.places.append(place)
                 
-                let annotation = placeAnnotation(location: palce.location!.coordinate, title: place.placeName)
+                // Creating the PlaceAnnotation object that is going to be used to show an annotation on the map view.
+                let annotation = placeAnnotation(location: place.location!.coordinate, title: place.placeName)
                 
+                // Adding the annotation to the view. Since this manipulates the UI, the code has to be executed on the main thread.
                 DispatchQueue.main.async {
                   self.mapView.addAnnotation(annotation)
                 }
