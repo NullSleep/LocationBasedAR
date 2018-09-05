@@ -32,6 +32,14 @@ class ViewController: UIViewController {
   
   @IBOutlet weak var mapView: MKMapView!
   
+  // Breakdown of the HDAugmentedReality libray:
+  // ARAnnotation: This class is used to define a POI
+  // ARAnnotationView: This is used to provide a view for POI.
+  // ARConfiguration: This is used to provide some basic configuration and helper methods.
+  // ARTrackingManager: This is where the AR tracking hard work is done.
+  // ARViewController: This controller does all the visual parts. It show a live video and markers to the view.
+  fileprivate var arViewController: ARViewController!
+  
   fileprivate let locationManager = CLLocationManager()
   
   // Tracks if there is a request in progress, it can happen that eh CLLocationManagerDelegate method is called multiple
@@ -65,6 +73,22 @@ class ViewController: UIViewController {
   }
   
   @IBAction func showARController(_ sender: Any) {
+    arViewController = ARViewController()
+
+    // The datasource provides views for visible POIs
+    arViewController.dataSource = self
+
+    // maxVisibleAnnotations defines how many views are visible at the same time. To keep everything smooth you use a value of thirty, but this
+    // there must be a lot of POIs near you.
+    arViewController.maxVisibleAnnotations = 30
+
+    // This is used to move views for the POIs about the screen. A value of 1 means that there is no smoothing and if you turn your iPhone
+    // around views may jump from position to another. Lower values mean that moving is animated, but then the views may be a bit behind the
+    // "moving". PLaying with this value can yield a good ratio between smooth moving and speed.
+    arViewController.headingSmoothingFactor = 0.05
+
+    // This show the arViewController
+    self.present(arViewController, animated: true, completion: nil)
   }
   
 }
