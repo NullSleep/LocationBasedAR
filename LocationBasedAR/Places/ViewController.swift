@@ -25,6 +25,9 @@ import UIKit
 import MapKit
 import CoreLocation
 
+// The HDAugmentedReality habndles the camera captioning for you so that showing live video is easy. Second, it adds the
+// overlays for the POIs for you and handles their positioning.
+
 class ViewController: UIViewController {
   
   @IBOutlet weak var mapView: MKMapView!
