@@ -28,7 +28,7 @@ import CoreLocation
 // The HDAugmentedReality habndles the camera captioning for you so that showing live video is easy. Second, it adds the
 // overlays for the POIs for you and handles their positioning.
 
-class ViewController: UIViewController, ARDataSource {
+class ViewController: UIViewController {
   
   @IBOutlet weak var mapView: MKMapView!
   
@@ -90,11 +90,6 @@ class ViewController: UIViewController, ARDataSource {
     // This shows the arViewController
     self.present(arViewController, animated: true, completion: nil)
   }
-  
-  func ar(_ arViewController: ARViewController, viewForAnnotation: ARAnnotation) -> ARAnnotationView {
-    <#code#>
-  }
-  
 }
 
 extension ViewController: CLLocationManagerDelegate {
@@ -172,5 +167,23 @@ extension ViewController: CLLocationManagerDelegate {
       }
     }
   }
+}
+
+extension ViewController: ARDataSource {
   
+  // Creating a new AnnotationView and setting its delegate
+  func ar(_ arViewController: ARViewController, viewForAnnotation: ARAnnotation) -> ARAnnotationView {
+    let annotationView = AnnotationView()
+    annotationView.annotation = viewForAnnotation
+    annotationView.delegate = self
+    annotationView.frame = CGRect(x: 0, y: 0, width: 150, height: 50)
+    
+    return annotationView
+  }
+}
+
+extension ViewController: AnnotationViewDelegate {
+  func didTouch(annotationView: AnnotationView) {
+    print("Tapped view for POI: \(annotationView.titleLabel?.text ?? "")")
+  }
 }
