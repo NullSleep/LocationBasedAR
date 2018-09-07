@@ -28,7 +28,7 @@ import CoreLocation
 // The HDAugmentedReality habndles the camera captioning for you so that showing live video is easy. Second, it adds the
 // overlays for the POIs for you and handles their positioning.
 
-class ViewController: UIViewController {
+class ViewController: UIViewController, ARDataSource {
   
   @IBOutlet weak var mapView: MKMapView!
   
@@ -87,8 +87,12 @@ class ViewController: UIViewController {
     // "moving". PLaying with this value can yield a good ratio between smooth moving and speed.
     arViewController.headingSmoothingFactor = 0.05
 
-    // This show the arViewController
+    // This shows the arViewController
     self.present(arViewController, animated: true, completion: nil)
+  }
+  
+  func ar(_ arViewController: ARViewController, viewForAnnotation: ARAnnotation) -> ARAnnotationView {
+    <#code#>
   }
   
 }
