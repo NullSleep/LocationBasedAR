@@ -1,2 +1,2 @@
 # LocationBasedAR
-Location based Augmented Reality experiment.
+Location based Augmented Reality application.
